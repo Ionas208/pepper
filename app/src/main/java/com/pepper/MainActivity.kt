@@ -22,7 +22,7 @@ class MainActivity : RobotActivity(), RobotLifecycleCallbacks {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        println("lmao")
         /*CoroutineScope(Main).launch {
             (activity as).getQiContext().let { cxt ->
 
