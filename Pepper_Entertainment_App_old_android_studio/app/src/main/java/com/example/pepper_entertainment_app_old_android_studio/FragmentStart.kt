@@ -27,17 +27,8 @@ class FragmentStart : Fragment() {
         val view = inflater.inflate(R.layout.fragment_start, container, false)
         val btStart: Button = view.findViewById(R.id.btStart)
 
-        val helloAnimation: Animation = AnimationBuilder.with(MainActivity.ctx)
-            .withResources()
-            .build()
 
-        val hello: Animate = AnimateBuilder.with(MainActivity.ctx)
-            .withAnimation(helloAnimation)
-            .build()
 
-        CoroutineScope(IO).run {
-            hello.async().run()
-        }
 
         btStart.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_fragmentStart2_to_fragmentMode)

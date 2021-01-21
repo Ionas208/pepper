@@ -5,9 +5,15 @@ import android.os.Bundle
 import com.aldebaran.qi.sdk.QiContext
 import com.aldebaran.qi.sdk.QiSDK
 import com.aldebaran.qi.sdk.RobotLifecycleCallbacks
+import com.aldebaran.qi.sdk.`object`.actuation.Animate
+import com.aldebaran.qi.sdk.`object`.actuation.Animation
 import com.aldebaran.qi.sdk.`object`.conversation.Say
+import com.aldebaran.qi.sdk.builder.AnimateBuilder
+import com.aldebaran.qi.sdk.builder.AnimationBuilder
 import com.aldebaran.qi.sdk.builder.SayBuilder
 import com.aldebaran.qi.sdk.design.activity.RobotActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 
 class MainActivity : RobotActivity(), RobotLifecycleCallbacks {
 
@@ -21,10 +27,17 @@ class MainActivity : RobotActivity(), RobotLifecycleCallbacks {
 
     override fun onRobotFocusGained(qiContext: QiContext?) {
         ctx = qiContext
-        val say: Say = SayBuilder.with(ctx) // Create the builder with the context.
-            .withText("Hello human!") // Set the text to say.
-            .build() // Build the say action.
-        say.run()
+        val helloAnimation: Animation = AnimationBuilder.with(MainActivity.ctx)
+            .withResources(R.raw.hello_01)
+            .build()
+
+        val hello: Animate = AnimateBuilder.with(MainActivity.ctx)
+            .withAnimation(helloAnimation)
+            .build()
+
+        CoroutineScope(Dispatchers.IO).run {
+            hello.async().run()
+        }
     }
 
     override fun onRobotFocusLost() {

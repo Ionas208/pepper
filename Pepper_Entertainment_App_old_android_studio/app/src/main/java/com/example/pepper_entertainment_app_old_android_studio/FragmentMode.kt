@@ -15,6 +15,8 @@ import com.aldebaran.qi.sdk.builder.PhraseSetBuilder
 import com.aldebaran.qi.Future
 import com.aldebaran.qi.sdk.`object`.conversation.ListenResult
 import com.aldebaran.qi.sdk.`object`.conversation.Phrase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -58,61 +60,62 @@ class FragmentMode : Fragment() {
         /*
             Phrases
          */
-        val dancePhrases: Future<PhraseSet> = PhraseSetBuilder.with(MainActivity.ctx)
-            .withTexts("Tanz", "Dance")
-            .buildAsync()
-        val jokePhrases: Future<PhraseSet>  = PhraseSetBuilder.with(MainActivity.ctx)
-            .withTexts("Witz", "Joke")
-            .buildAsync()
-        val quizPhrases: Future<PhraseSet>  = PhraseSetBuilder.with(MainActivity.ctx)
-            .withTexts("Quiz")
-            .buildAsync()
+        CoroutineScope(IO).run {
+            val dancePhrases: Future<PhraseSet> = PhraseSetBuilder.with(MainActivity.ctx)
+                .withTexts("Tanz", "Dance")
+                .buildAsync()
+            val jokePhrases: Future<PhraseSet>  = PhraseSetBuilder.with(MainActivity.ctx)
+                .withTexts("Witz", "Joke")
+                .buildAsync()
+            val quizPhrases: Future<PhraseSet>  = PhraseSetBuilder.with(MainActivity.ctx)
+                .withTexts("Quiz")
+                .buildAsync()
 
-        /*
-            Listens
-         */
-        /*val danceListen: Listen = ListenBuilder.with(MainActivity.ctx)
-            .withPhraseSet(dancePhrases.andThenApply{ph -> ph.phrases})
-            .build()
-        dancePhrases.andThenApply{ph -> ph}
-        val jokeListen: Listen = ListenBuilder.with(MainActivity.ctx)
-            .withPhraseSet(jokePhrases)
-            .build()
-        val quizListen: Listen = ListenBuilder.with(MainActivity.ctx)
-            .withPhraseSet(quizPhrases)
-            .build()*/
+            /*
+                Listens
+             */
+            val danceListen: Listen = ListenBuilder.with(MainActivity.ctx)
+                .withPhraseSet(dancePhrases)
+                .build()
+            val jokeListen: Listen = ListenBuilder.with(MainActivity.ctx)
+                .withPhraseSet(jokePhrases)
+                .build()
+            val quizListen: Listen = ListenBuilder.with(MainActivity.ctx)
+                .withPhraseSet(quizPhrases)
+                .build()
 
-        /*
-            Futures
-         */
-        /*val danceFuture: Future<ListenResult> = danceListen.async().run()
-        val jokeFuture: Future<ListenResult> = jokeListen.async().run()
-        val quizFuture: Future<ListenResult> = quizListen.async().run()
+            /*
+                Futures
+             */
+            val danceFuture: Future<ListenResult> = danceListen.async().run()
+            val jokeFuture: Future<ListenResult> = jokeListen.async().run()
+            val quizFuture: Future<ListenResult> = quizListen.async().run()
 
-        danceFuture.andThenConsume {future ->
-            val match: PhraseSet = future.matchedPhraseSet
-            if(match.phrases.size > 0){
-                //navigateToDance()
-                Navigation.findNavController(view).navigate(R.id.action_fragmentMode_to_fragmentDance)
+            danceFuture.andThenConsume {future ->
+                val match: PhraseSet = future.matchedPhraseSet
+                if(match.phrases.size > 0){
+                    //navigateToDance()
+                    Navigation.findNavController(view).navigate(R.id.action_fragmentMode_to_fragmentDance)
+                }
+            }
+
+            jokeFuture.andThenConsume {future ->
+                val match: PhraseSet = future.matchedPhraseSet
+                if(match.phrases.size > 0){
+                    //navigateToJoke()
+                    Navigation.findNavController(view).navigate(R.id.action_fragmentMode_to_fragmentJoke)
+                }
+            }
+
+            quizFuture.andThenConsume {future ->
+                val match: PhraseSet = future.matchedPhraseSet
+                if(match.phrases.size > 0){
+                    //navigateToQuiz()
+                    Navigation.findNavController(view).navigate(R.id.action_fragmentMode_to_fragmentQuiz)
+                }
             }
         }
 
-        jokeFuture.andThenConsume {future ->
-            val match: PhraseSet = future.matchedPhraseSet
-            if(match.phrases.size > 0){
-                //navigateToJoke()
-                Navigation.findNavController(view).navigate(R.id.action_fragmentMode_to_fragmentJoke)
-            }
-        }
-
-        quizFuture.andThenConsume {future ->
-            val match: PhraseSet = future.matchedPhraseSet
-            if(match.phrases.size > 0){
-                //navigateToQuiz()
-                Navigation.findNavController(view).navigate(R.id.action_fragmentMode_to_fragmentQuiz)
-            }
-        }
-*/
         return view
     }
 
