@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav"
+    app:startDestination="@id/fragmentStart2">
+
+    <fragment
+        android:id="@+id/fragmentMode"
+        android:name="com.example.pepper_entertainment_app_old_android_studio.FragmentMode"
+        android:label="fragment_mode"
+        tools:layout="@layout/fragment_mode" >
+        <action
+            android:id="@+id/action_fragmentMode_to_fragmentDance"
+            app:destination="@id/fragmentDance" />
+        <action
+            android:id="@+id/action_fragmentMode_to_fragmentJoke"
+            app:destination="@id/fragmentJoke" />
+        <action
+            android:id="@+id/action_fragmentMode_to_fragmentQuiz"
+            app:destination="@id/fragmentQuiz" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentDance"
+        android:name="com.example.pepper_entertainment_app_old_android_studio.FragmentDance"
+        android:label="fragment_dance"
+        tools:layout="@layout/fragment_dance" >
+        <action
+            android:id="@+id/action_fragmentDance_to_fragmentMode"
+            app:destination="@id/fragmentMode" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentJoke"
+        android:name="com.example.pepper_entertainment_app_old_android_studio.FragmentJoke"
+        android:label="fragment_joke"
+        tools:layout="@layout/fragment_joke" >
+        <action
+            android:id="@+id/action_fragmentJoke_to_fragmentMode"
+            app:destination="@id/fragmentMode" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentQuiz"
+        android:name="com.example.pepper_entertainment_app_old_android_studio.FragmentQuiz"
+        android:label="fragment_quiz"
+        tools:layout="@layout/fragment_quiz" >
+        <action
+            android:id="@+id/action_fragmentQuiz_to_fragmentMode"
+            app:destination="@id/fragmentMode" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentStart2"
+        android:name="com.example.pepper_entertainment_app_old_android_studio.FragmentStart"
+        android:label="fragment_start"
+        tools:layout="@layout/fragment_start" >
+        <action
+            android:id="@+id/action_fragmentStart2_to_fragmentMode"
+            app:destination="@id/fragmentMode" />
+    </fragment>
+</navigation>
