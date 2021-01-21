@@ -2,15 +2,17 @@ package com.example.pepper_entertainment_app_old_android_studio
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.aldebaran.qi.Future
 import com.aldebaran.qi.sdk.QiContext
 import com.aldebaran.qi.sdk.QiSDK
 import com.aldebaran.qi.sdk.RobotLifecycleCallbacks
 import com.aldebaran.qi.sdk.`object`.actuation.Animate
 import com.aldebaran.qi.sdk.`object`.actuation.Animation
+import com.aldebaran.qi.sdk.`object`.conversation.Listen
+import com.aldebaran.qi.sdk.`object`.conversation.ListenResult
+import com.aldebaran.qi.sdk.`object`.conversation.PhraseSet
 import com.aldebaran.qi.sdk.`object`.conversation.Say
-import com.aldebaran.qi.sdk.builder.AnimateBuilder
-import com.aldebaran.qi.sdk.builder.AnimationBuilder
-import com.aldebaran.qi.sdk.builder.SayBuilder
+import com.aldebaran.qi.sdk.builder.*
 import com.aldebaran.qi.sdk.design.activity.RobotActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
