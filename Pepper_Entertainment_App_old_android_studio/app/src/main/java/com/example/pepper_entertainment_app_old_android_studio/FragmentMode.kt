@@ -8,19 +8,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import com.aldebaran.qi.sdk.`object`.conversation.Listen
-import com.aldebaran.qi.sdk.`object`.conversation.PhraseSet
+import androidx.navigation.fragment.navArgs
 import com.aldebaran.qi.sdk.builder.ListenBuilder
 import com.aldebaran.qi.sdk.builder.PhraseSetBuilder
 import com.aldebaran.qi.Future
 import com.aldebaran.qi.sdk.QiContext
-import com.aldebaran.qi.sdk.`object`.conversation.ListenResult
-import com.aldebaran.qi.sdk.`object`.conversation.Phrase
+import com.aldebaran.qi.sdk.`object`.conversation.*
+import com.aldebaran.qi.sdk.builder.SayBuilder
+import com.example.pepper_entertainment_app_old_android_studio.databinding.FragmentModeBinding
+import com.example.pepper_entertainment_app_old_android_studio.databinding.FragmentModeNewBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -32,18 +35,24 @@ class FragmentMode : Fragment() {
 
     var listenFuture: Future<ListenResult>? = null
 
+    val args: FragmentModeArgs by navArgs()
+
+    private lateinit var binding : FragmentModeNewBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view =  inflater.inflate(R.layout.fragment_mode_new, container, false)
-        val btDance: ImageButton = view.findViewById(R.id.btDance)
-        val btJoke: ImageButton = view.findViewById(R.id.btJoke)
-        val btQuiz: ImageButton = view.findViewById(R.id.btQuiz)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_mode_new, container, false);
 
-        btDance.setOnClickListener {
+        val firstCall = args.firstCall
+        if(firstCall){
+            explainModes()
+        }
+
+        binding.btDance.setOnClickListener {
             CoroutineScope(IO).launch {
                 listenFuture?.requestCancellation()
                 waitForFutureCancellation(listenFuture)
@@ -52,7 +61,7 @@ class FragmentMode : Fragment() {
                 }
             }
         }
-        btJoke.setOnClickListener {
+        binding.btJoke.setOnClickListener {
             CoroutineScope(IO).launch {
                 listenFuture?.requestCancellation()
                 waitForFutureCancellation(listenFuture)
@@ -61,7 +70,7 @@ class FragmentMode : Fragment() {
                 }
             }
         }
-        btQuiz.setOnClickListener {
+        binding.btQuiz.setOnClickListener {
             CoroutineScope(IO).launch {
                 listenFuture?.requestCancellation()
                 waitForFutureCancellation(listenFuture)
@@ -96,29 +105,19 @@ class FragmentMode : Fragment() {
             }
 
         }
-        FragmentMode.view = view
-        return view
+        return binding.root
     }
 
     private fun navigateToDance(){
-        val v = FragmentMode.view
-        if(v != null){
-            Navigation.findNavController(v).navigate(R.id.action_fragmentMode_to_fragmentDance)
-        }
+            Navigation.findNavController(binding.root).navigate(R.id.action_fragmentMode_to_fragmentDance)
     }
 
     private fun navigateToJoke(){
-        val v = FragmentMode.view
-        if(v != null){
-            Navigation.findNavController(v).navigate(R.id.action_fragmentMode_to_fragmentJoke)
-        }
+        Navigation.findNavController(binding.root).navigate(R.id.action_fragmentMode_to_fragmentJoke)
     }
 
     private fun navigateToQuiz(){
-        val v = FragmentMode.view
-        if(v != null){
-            Navigation.findNavController(v).navigate(R.id.action_fragmentMode_to_fragmentQuiz)
-        }
+        Navigation.findNavController(binding.root).navigate(R.id.action_fragmentMode_to_fragmentQuiz)
     }
 
     private suspend fun waitForFutureCancellation(future: Future<*>?){
@@ -128,7 +127,12 @@ class FragmentMode : Fragment() {
             }
         }
     }
-    companion object{
-        var view: View? = null
+
+    private fun explainModes() = CoroutineScope(IO).async{
+        val phrase = Phrase("Mode Explanation Test")
+        val say: Say = SayBuilder.with(MainActivity.ctx)
+            .withPhrase(phrase)
+            .build()
+        say.run()
     }
 }

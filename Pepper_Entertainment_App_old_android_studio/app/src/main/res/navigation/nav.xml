@@ -19,6 +19,10 @@
         <action
             android:id="@+id/action_fragmentMode_to_fragmentQuiz"
             app:destination="@id/fragmentQuiz" />
+        <argument
+            android:name="firstCall"
+            app:argType="boolean"
+            android:defaultValue="true" />
     </fragment>
     <fragment
         android:id="@+id/fragmentDance"

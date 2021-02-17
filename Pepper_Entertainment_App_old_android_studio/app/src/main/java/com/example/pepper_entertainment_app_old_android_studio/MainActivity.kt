@@ -2,6 +2,7 @@ package com.example.pepper_entertainment_app_old_android_studio
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.databinding.DataBindingUtil
 import com.aldebaran.qi.Future
 import com.aldebaran.qi.sdk.QiContext
 import com.aldebaran.qi.sdk.QiSDK
@@ -20,10 +21,11 @@ import kotlinx.coroutines.Dispatchers
 class MainActivity : RobotActivity(), RobotLifecycleCallbacks {
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        this.setContentView(R.layout.activity_main)
+
         QiSDK.register(this, this);
     }
 
