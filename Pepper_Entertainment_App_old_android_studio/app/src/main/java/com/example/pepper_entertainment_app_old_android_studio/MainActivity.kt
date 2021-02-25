@@ -18,8 +18,9 @@ import com.aldebaran.qi.sdk.design.activity.RobotActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
-class MainActivity : RobotActivity(), RobotLifecycleCallbacks {
+class MainActivity : AppCompatActivity(), RobotLifecycleCallbacks {
 
+    var sayFuture: Future<*> ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

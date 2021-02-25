@@ -128,11 +128,14 @@ class FragmentMode : Fragment() {
         }
     }
 
-    private fun explainModes() = CoroutineScope(IO).async{
-        val phrase = Phrase("Mode Explanation Test")
-        val say: Say = SayBuilder.with(MainActivity.ctx)
+    private fun explainModes() = CoroutineScope(IO).launch{
+        var phrase = Phrase("Hallo, mein Name ist Pepper, du kannst hier " +
+                                "zwischen Tanz, Witz oder Quiz aussuchen. Du kannst mit mir sprechen " +
+                                "oder auf meinen Bildschirm klicken.")
+        var say: Say = SayBuilder.with(MainActivity.ctx)
             .withPhrase(phrase)
             .build()
-        say.run()
+        //val sayFuture: Future<Void> = say.async().run()
     }
+
 }

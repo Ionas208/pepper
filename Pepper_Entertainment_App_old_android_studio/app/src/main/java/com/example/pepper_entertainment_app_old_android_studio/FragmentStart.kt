@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import com.aldebaran.qi.sdk.`object`.actuation.Animate
 import com.aldebaran.qi.sdk.`object`.actuation.Animation
+import com.aldebaran.qi.sdk.`object`.conversation.Phrase
 import com.aldebaran.qi.sdk.`object`.conversation.Say
 import com.aldebaran.qi.sdk.builder.AnimateBuilder
 import com.aldebaran.qi.sdk.builder.AnimationBuilder
@@ -17,6 +18,10 @@ import com.aldebaran.qi.sdk.builder.SayBuilder
 import com.example.pepper_entertainment_app_old_android_studio.databinding.FragmentStartBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class FragmentStart : Fragment() {
@@ -29,11 +34,41 @@ class FragmentStart : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_start, container, false)
-
-
-        binding.btStart.setOnClickListener {
-            Navigation.findNavController(binding.root).navigate(R.id.action_fragmentStart2_to_fragmentMode)
-        }
+        nav2Mode()
         return binding.root
+    }
+
+    private fun nav2Mode() = CoroutineScope(Main).async {
+        waitForCTX()
+        CoroutineScope(IO).launch {
+            val phrase = Phrase("Hallo!")
+            var say: Say = SayBuilder.with(MainActivity.ctx)
+                .withPhrase(phrase)
+                .build()
+            say.run()
+            CoroutineScope(Main).launch {
+                delay(2000)
+                binding.tvHello.text = "Ich bin Pepper!"
+                CoroutineScope(IO).launch {
+                    val phrase = Phrase("Ich bin Pepper!")
+                    var say: Say = SayBuilder.with(MainActivity.ctx)
+                        .withPhrase(phrase)
+                        .build()
+                    say.run()
+                    CoroutineScope(Main).launch {
+                        delay(2000)
+                        Navigation.findNavController(binding.root).navigate(R.id.action_fragmentStart2_to_fragmentMode)
+                    }
+                }
+            }
+        }
+    }
+
+    private suspend fun waitForCTX(){
+        var counter = 0
+        while(MainActivity.ctx == null && counter<=10){
+            delay(200)
+            counter++
+        }
     }
 }

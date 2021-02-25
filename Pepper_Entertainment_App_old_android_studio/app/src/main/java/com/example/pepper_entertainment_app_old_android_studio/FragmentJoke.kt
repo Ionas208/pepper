@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
+import com.aldebaran.qi.Future
 import com.aldebaran.qi.sdk.`object`.conversation.Phrase
 import com.aldebaran.qi.sdk.`object`.conversation.Say
 import com.aldebaran.qi.sdk.builder.SayBuilder
@@ -40,28 +41,33 @@ class FragmentJoke : Fragment() {
         return binding.root
     }
 
-    private fun sayJoke(jokes: ArrayList<Joke>) = CoroutineScope(Main).async {
+    private fun sayJoke(jokes: ArrayList<Joke>) = CoroutineScope(Main).launch {
         val randomJoke: Int = Random.nextInt(0, jokes.size)
         binding.tvJoke.text = jokes.get(randomJoke).joke
+
         CoroutineScope(IO).launch {
-            val phrase = Phrase(jokes.get(randomJoke).joke)
-            val say: Say = SayBuilder.with(MainActivity.ctx)
+            var phrase = Phrase(jokes.get(randomJoke).joke)
+            val sayJoke: Say = SayBuilder.with(MainActivity.ctx)
                 .withPhrase(phrase)
                 .build()
-            say.run()
+            sayJoke.run()
+            CoroutineScope(Main).launch {
+                delay(1000)
+                binding.tvJoke.text = jokes.get(randomJoke).punchline
+                CoroutineScope(IO).launch {
+                    phrase = Phrase(jokes.get(randomJoke).punchline)
+                    val sayPunchline: Say = SayBuilder.with(MainActivity.ctx)
+                        .withPhrase(phrase)
+                        .build()
+                    sayPunchline.run()
+                    CoroutineScope(Main).launch {
+                        delay(1000)
+                        val action = FragmentJokeDirections.actionFragmentJokeToFragmentMode(false)
+                        Navigation.findNavController(binding.root).navigate(action)
+                    }
+                }
+            }
         }
-        delay(1000)
-        binding.tvJoke.text = jokes.get(randomJoke).punchline
-        CoroutineScope(IO).launch {
-            val phrase = Phrase(jokes.get(randomJoke).punchline)
-            val say: Say = SayBuilder.with(MainActivity.ctx)
-                .withPhrase(phrase)
-                .build()
-            say.run()
-        }
-        delay(1000)
-        val action = FragmentJokeDirections.actionFragmentJokeToFragmentMode(false)
-        Navigation.findNavController(binding.root).navigate(action)
     }
 
     private fun readJokes(): ArrayList<Joke>{

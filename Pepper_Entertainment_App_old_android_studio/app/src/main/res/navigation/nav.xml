@@ -58,6 +58,7 @@
         tools:layout="@layout/fragment_start" >
         <action
             android:id="@+id/action_fragmentStart2_to_fragmentMode"
-            app:destination="@id/fragmentMode" />
+            app:destination="@+id/fragmentMode"
+            app:enterAnim="@anim/fragment_fade_enter" />
     </fragment>
 </navigation>
