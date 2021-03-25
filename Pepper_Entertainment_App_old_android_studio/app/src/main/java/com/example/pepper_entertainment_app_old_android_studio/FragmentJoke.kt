@@ -5,8 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
 import com.aldebaran.qi.Future
 import com.aldebaran.qi.sdk.`object`.conversation.Phrase
 import com.aldebaran.qi.sdk.`object`.conversation.Say
@@ -35,35 +37,37 @@ class FragmentJoke : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_joke, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_joke, container, false)
+
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                navBack()
+            }
+        })
+
         val jokes: ArrayList<Joke> = readJokes()
         sayJoke(jokes)
         return binding.root
     }
 
     private fun sayJoke(jokes: ArrayList<Joke>) = CoroutineScope(Main).launch {
+        //Get Joke
         val randomJoke: Int = Random.nextInt(0, jokes.size)
         binding.tvJoke.text = jokes.get(randomJoke).joke
 
+        //Say Joke
         CoroutineScope(IO).launch {
-            var phrase = Phrase(jokes.get(randomJoke).joke)
-            val sayJoke: Say = SayBuilder.with(MainActivity.ctx)
-                .withPhrase(phrase)
-                .build()
-            sayJoke.run()
+            RobotUtil.say(jokes.get(randomJoke).joke)
             CoroutineScope(Main).launch {
                 delay(1000)
                 binding.tvJoke.text = jokes.get(randomJoke).punchline
+
+                //Say Punchline
                 CoroutineScope(IO).launch {
-                    phrase = Phrase(jokes.get(randomJoke).punchline)
-                    val sayPunchline: Say = SayBuilder.with(MainActivity.ctx)
-                        .withPhrase(phrase)
-                        .build()
-                    sayPunchline.run()
+                    RobotUtil.say(jokes.get(randomJoke).punchline)
                     CoroutineScope(Main).launch {
                         delay(1000)
-                        val action = FragmentJokeDirections.actionFragmentJokeToFragmentMode(false)
-                        Navigation.findNavController(binding.root).navigate(action)
+                        navBack()
                     }
                 }
             }
@@ -89,5 +93,12 @@ class FragmentJoke : Fragment() {
         val joke: String = line.split(";")[0]
         val punchline: String = line.split(";")[1]
         return Joke(joke, punchline)
+    }
+
+
+    fun navBack(){
+        RobotUtil.cancelAllFutures()
+        val action = FragmentJokeDirections.actionFragmentJokeToFragmentMode(false)
+        Navigation.findNavController(binding.root).navigate(action)
     }
 }

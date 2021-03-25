@@ -20,7 +20,7 @@ import kotlinx.coroutines.Dispatchers
 
 class MainActivity : AppCompatActivity(), RobotLifecycleCallbacks {
 
-    var sayFuture: Future<*> ?= null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,17 +32,6 @@ class MainActivity : AppCompatActivity(), RobotLifecycleCallbacks {
 
     override fun onRobotFocusGained(qiContext: QiContext?) {
         ctx = qiContext
-        val helloAnimation: Animation = AnimationBuilder.with(MainActivity.ctx)
-            .withResources(R.raw.hello_01)
-            .build()
-
-        val hello: Animate = AnimateBuilder.with(MainActivity.ctx)
-            .withAnimation(helloAnimation)
-            .build()
-
-        CoroutineScope(Dispatchers.IO).run {
-            hello.async().run()
-        }
     }
 
     override fun onRobotFocusLost() {
@@ -59,5 +48,8 @@ class MainActivity : AppCompatActivity(), RobotLifecycleCallbacks {
 
     companion object{
         var ctx: QiContext? = null
+        var sayFuture: Future<*> ?= null
+        var animateFuture: Future<*> ?= null
+        var listenFuture: Future<ListenResult> ?= null
     }
 }

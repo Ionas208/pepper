@@ -41,20 +41,13 @@ class FragmentStart : Fragment() {
     private fun nav2Mode() = CoroutineScope(Main).async {
         waitForCTX()
         CoroutineScope(IO).launch {
-            val phrase = Phrase("Hallo!")
-            var say: Say = SayBuilder.with(MainActivity.ctx)
-                .withPhrase(phrase)
-                .build()
-            say.run()
+            RobotUtil.animate(R.raw.hello_01)
+            RobotUtil.say("Hallo!")
             CoroutineScope(Main).launch {
                 delay(2000)
                 binding.tvHello.text = "Ich bin Pepper!"
                 CoroutineScope(IO).launch {
-                    val phrase = Phrase("Ich bin Pepper!")
-                    var say: Say = SayBuilder.with(MainActivity.ctx)
-                        .withPhrase(phrase)
-                        .build()
-                    say.run()
+                    RobotUtil.say("Ich bin Pepper")
                     CoroutineScope(Main).launch {
                         delay(2000)
                         Navigation.findNavController(binding.root).navigate(R.id.action_fragmentStart2_to_fragmentMode)

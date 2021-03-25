@@ -18,7 +18,6 @@ import com.aldebaran.qi.Future
 import com.aldebaran.qi.sdk.QiContext
 import com.aldebaran.qi.sdk.`object`.conversation.*
 import com.aldebaran.qi.sdk.builder.SayBuilder
-import com.example.pepper_entertainment_app_old_android_studio.databinding.FragmentModeBinding
 import com.example.pepper_entertainment_app_old_android_studio.databinding.FragmentModeNewBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -29,11 +28,10 @@ import kotlinx.coroutines.launch
 
 class FragmentMode : Fragment() {
 
+    //Phrases for Listen
     val dancePhrases = arrayOf<String>("Dance", "Tanz")
     val jokePhrases = arrayOf<String>("Witz", "Joke")
     val quizPhrases = arrayOf<String>("Quiz")
-
-    var listenFuture: Future<ListenResult>? = null
 
     val args: FragmentModeArgs by navArgs()
 
@@ -45,17 +43,21 @@ class FragmentMode : Fragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_mode_new, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_mode_new, container, false)
 
+        //Explaining modes
         val firstCall = args.firstCall
         if(firstCall){
             explainModes()
         }
 
+        //=====================================
+        // OnClickListener for Navigation
+        //=====================================
         binding.btDance.setOnClickListener {
             CoroutineScope(IO).launch {
-                listenFuture?.requestCancellation()
-                waitForFutureCancellation(listenFuture)
+                MainActivity.listenFuture?.requestCancellation()
+                waitForFutureCancellation(MainActivity.listenFuture)
                 CoroutineScope(Main).launch{
                     navigateToDance()
                 }
@@ -63,8 +65,8 @@ class FragmentMode : Fragment() {
         }
         binding.btJoke.setOnClickListener {
             CoroutineScope(IO).launch {
-                listenFuture?.requestCancellation()
-                waitForFutureCancellation(listenFuture)
+                MainActivity.listenFuture?.requestCancellation()
+                waitForFutureCancellation(MainActivity.listenFuture)
                 CoroutineScope(Main).launch{
                     navigateToJoke()
                 }
@@ -72,14 +74,17 @@ class FragmentMode : Fragment() {
         }
         binding.btQuiz.setOnClickListener {
             CoroutineScope(IO).launch {
-                listenFuture?.requestCancellation()
-                waitForFutureCancellation(listenFuture)
+                MainActivity.listenFuture?.requestCancellation()
+                waitForFutureCancellation(MainActivity.listenFuture)
                 CoroutineScope(Main).launch{
                     navigateToQuiz()
                 }
             }
         }
 
+        //=====================================
+        // Listening for Navigation
+        //=====================================
         CoroutineScope(IO).launch {
             val phrases: PhraseSet = PhraseSetBuilder.with(MainActivity.ctx)
                 .withTexts(*(dancePhrases+jokePhrases+quizPhrases))
@@ -89,9 +94,12 @@ class FragmentMode : Fragment() {
                 .withPhraseSet(phrases)
                 .build()
 
-            listenFuture = listen.async().run()
+            //Cancel futures for listen
+            RobotUtil.prepareListen()
+            MainActivity.listenFuture = listen.async().run()
 
-            listenFuture?.andThenConsume {future ->
+            //Evaluate Result
+            MainActivity.listenFuture?.andThenConsume {future ->
                 val phrase:Phrase = future.heardPhrase
                 if(dancePhrases.contains(phrase.text)){
                     navigateToDance()
@@ -129,13 +137,8 @@ class FragmentMode : Fragment() {
     }
 
     private fun explainModes() = CoroutineScope(IO).launch{
-        var phrase = Phrase("Hallo, mein Name ist Pepper, du kannst hier " +
-                                "zwischen Tanz, Witz oder Quiz aussuchen. Du kannst mit mir sprechen " +
-                                "oder auf meinen Bildschirm klicken.")
-        var say: Say = SayBuilder.with(MainActivity.ctx)
-            .withPhrase(phrase)
-            .build()
-        //val sayFuture: Future<Void> = say.async().run()
+        RobotUtil.say("Hallo, mein Name ist Pepper, du kannst hier zwischen Tanz, Witz oder" +
+                " Quiz aussuchen. Du kannst mit mir sprechen oder auf meinen Bildschirm klicken.")
     }
 
 }
