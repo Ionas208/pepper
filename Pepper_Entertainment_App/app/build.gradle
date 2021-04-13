@@ -7,6 +7,10 @@ android {
     compileSdkVersion 29
     buildToolsVersion "30.0.2"
 
+    dataBinding{
+        enabled = true
+    }
+
     defaultConfig {
         applicationId "com.example.pepper_entertainment_app"
         minSdkVersion 23

@@ -5,55 +5,100 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import androidx.databinding.DataBindingUtil
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
+import com.aldebaran.qi.Future
+import com.aldebaran.qi.sdk.`object`.conversation.Phrase
+import com.aldebaran.qi.sdk.`object`.conversation.Say
+import com.aldebaran.qi.sdk.builder.SayBuilder
+import com.example.pepper_entertainment_app.databinding.ActivityMainBinding
+import com.example.pepper_entertainment_app.databinding.FragmentJokeBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.io.BufferedReader
+import java.io.InputStream
+import java.io.InputStreamReader
+import kotlin.random.Random
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [FragmentJoke.newInstance] factory method to
- * create an instance of this fragment.
- */
 class FragmentJoke : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private lateinit var binding : FragmentJokeBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_joke, container, false)
+
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                navBack()
+            }
+        })
+
+        val jokes: ArrayList<Joke> = readJokes()
+        sayJoke(jokes)
+        return binding.root
+    }
+
+    private fun sayJoke(jokes: ArrayList<Joke>) = CoroutineScope(Main).launch {
+        //Get Joke
+        val randomJoke: Int = Random.nextInt(0, jokes.size)
+        binding.tvJoke.text = jokes.get(randomJoke).joke
+
+        //Say Joke
+        CoroutineScope(IO).launch {
+            RobotUtil.say(jokes.get(randomJoke).joke)
+            CoroutineScope(Main).launch {
+                delay(1000)
+                binding.tvJoke.text = jokes.get(randomJoke).punchline
+
+                //Say Punchline
+                CoroutineScope(IO).launch {
+                    RobotUtil.say(jokes.get(randomJoke).punchline)
+                    CoroutineScope(Main).launch {
+                        delay(1000)
+                        navBack()
+                    }
+                }
+            }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_joke, container, false)
+    private fun readJokes(): ArrayList<Joke>{
+        val jokeStream : InputStream = resources.openRawResource(R.raw.jokes)
+        val jokes : ArrayList<Joke> = ArrayList()
+        val br = BufferedReader(InputStreamReader(jokeStream))
+        //Skips first line
+        br.readLine()
+        var line: String ?= br.readLine()
+        while(line != null){
+            val joke: Joke = line2Joke(line)
+            jokes.add(joke)
+            line = br.readLine()
+        }
+        return jokes
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FragmentJoke.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FragmentJoke().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun line2Joke(line: String): Joke{
+        val joke: String = line.split(";")[0]
+        val punchline: String = line.split(";")[1]
+        return Joke(joke, punchline)
+    }
+
+
+    fun navBack(){
+        RobotUtil.cancelAllFutures()
+        val action = FragmentJokeDirections.actionFragmentJokeToFragmentMode(false)
+        Navigation.findNavController(binding.root).navigate(action)
     }
 }
