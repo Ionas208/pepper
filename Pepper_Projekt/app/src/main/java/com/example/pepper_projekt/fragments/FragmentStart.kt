@@ -17,8 +17,13 @@ import com.aldebaran.qi.sdk.builder.AnimationBuilder
 import com.aldebaran.qi.sdk.builder.SayBuilder
 import com.example.pepper_projekt.MainActivity
 import com.example.pepper_projekt.R
+import com.example.pepper_projekt.beans.Question
 import com.example.pepper_projekt.bl.RobotUtil
 import com.example.pepper_projekt.databinding.FragmentStartBinding
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main

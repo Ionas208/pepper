@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="button_size">200dp</dimen>
+    <dimen name="answer_width">200dp</dimen>
+    <dimen name="answer_height">75dp</dimen>
 </resources>

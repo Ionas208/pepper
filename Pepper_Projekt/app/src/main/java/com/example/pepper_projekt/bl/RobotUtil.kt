@@ -93,6 +93,22 @@ class RobotUtil {
             }
         }
 
+        suspend fun waitForAllFutureCancellations(){
+            if (MainActivity.sayFuture != null) {
+                MainActivity.sayFuture?.requestCancellation()
+                waitForFutureCancellation(MainActivity.sayFuture)
+            }
+            if(MainActivity.animateFuture != null){
+                MainActivity.animateFuture?.requestCancellation()
+                waitForFutureCancellation(MainActivity.animateFuture)
+            }
+
+            if(MainActivity.listenFuture != null){
+                MainActivity.listenFuture?.requestCancellation()
+                waitForFutureCancellation(MainActivity.listenFuture)
+            }
+        }
+
         private suspend fun waitForFutureCancellation(future: Future<*>?){
             future?.let{
                 while(!future.isDone && !future.isCancelled){

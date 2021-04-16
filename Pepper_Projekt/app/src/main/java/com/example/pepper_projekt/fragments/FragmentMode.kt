@@ -20,14 +20,19 @@ import com.aldebaran.qi.sdk.`object`.conversation.*
 import com.aldebaran.qi.sdk.builder.SayBuilder
 import com.example.pepper_projekt.MainActivity
 import com.example.pepper_projekt.R
+import com.example.pepper_projekt.beans.Answer
+import com.example.pepper_projekt.beans.Question
+import com.example.pepper_projekt.beans.Topic
 import com.example.pepper_projekt.bl.RobotUtil
 import com.example.pepper_projekt.databinding.FragmentModeBinding
+import com.fasterxml.jackson.databind.ObjectMapper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.*
 
 class FragmentMode : Fragment() {
 
@@ -128,7 +133,7 @@ class FragmentMode : Fragment() {
     }
 
     private fun navigateToQuiz(){
-        Navigation.findNavController(binding.root).navigate(R.id.action_fragmentMode_to_fragmentQuiz)
+        Navigation.findNavController(binding.root).navigate(R.id.action_fragmentMode_to_fragmentQuizTopic)
     }
 
     private suspend fun waitForFutureCancellation(future: Future<*>?){
@@ -140,8 +145,7 @@ class FragmentMode : Fragment() {
     }
 
     private fun explainModes() = CoroutineScope(IO).launch{
-        RobotUtil.say("Hallo, mein Name ist Pepper, du kannst hier zwischen Tanz, Witz oder" +
+        RobotUtil.say("Du kannst hier zwischen Tanz, Witz oder" +
                 " Quiz aussuchen. Du kannst mit mir sprechen oder auf meinen Bildschirm klicken.")
     }
-
 }

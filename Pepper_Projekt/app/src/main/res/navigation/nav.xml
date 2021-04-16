@@ -21,13 +21,13 @@
         <action
             android:id="@+id/action_fragmentMode_to_fragmentJoke"
             app:destination="@id/fragmentJoke" />
-        <action
-            android:id="@+id/action_fragmentMode_to_fragmentQuiz"
-            app:destination="@id/fragmentQuiz" />
         <argument
             android:name="firstCall"
             app:argType="boolean"
             android:defaultValue="true" />
+        <action
+            android:id="@+id/action_fragmentMode_to_fragmentQuizTopic"
+            app:destination="@id/fragmentQuizTopic" />
     </fragment>
     <fragment
         android:id="@+id/fragmentDance"
@@ -50,10 +50,45 @@
         android:name="com.example.pepper_entertainment_app.FragmentQuiz"
         android:label="FragmentQuiz" >
         <action
-            android:id="@+id/action_fragmentQuiz_to_fragmentMode"
-            app:destination="@id/fragmentMode" />
-        <action
             android:id="@+id/action_fragmentQuiz_self"
             app:destination="@id/fragmentQuiz" />
+        <argument
+            android:name="topic"
+            app:argType="com.example.pepper_projekt.beans.Topic" />
+        <argument
+            android:name="gameLogic"
+            app:argType="com.example.pepper_projekt.bl.GameLogic"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_fragmentQuiz_to_fragmentSummary"
+            app:destination="@id/fragmentSummary" />
+        <action
+            android:id="@+id/action_fragmentQuiz_to_fragmentMode"
+            app:destination="@id/fragmentMode" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentQuizTopic"
+        android:name="com.example.pepper_projekt.fragments.FragmentQuizTopic"
+        android:label="FragmentQuizTopic" >
+        <action
+            android:id="@+id/action_fragmentQuizTopic_to_fragmentQuiz"
+            app:destination="@id/fragmentQuiz" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentSummary"
+        android:name="com.example.pepper_projekt.fragments.FragmentSummary"
+        android:label="FragmentSummary" >
+        <action
+            android:id="@+id/action_fragmentSummary_to_fragmentMode"
+            app:destination="@id/fragmentMode" />
+        <argument
+            android:name="score"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="maxScore"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
 </navigation>
