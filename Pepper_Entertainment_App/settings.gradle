@@ -1,2 +1,0 @@
-include ':app'
-rootProject.name = "Pepper_Entertainment_App"

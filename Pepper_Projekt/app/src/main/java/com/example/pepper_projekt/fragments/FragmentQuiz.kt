@@ -34,6 +34,7 @@ import kotlinx.coroutines.launch
 class FragmentQuiz : Fragment() {
 
     private lateinit var binding : FragmentQuizBinding
+    private var clicked = false;
 
     val args: FragmentQuizArgs by navArgs()
     lateinit var gameLogic: GameLogic
@@ -104,24 +105,27 @@ class FragmentQuiz : Fragment() {
     }
 
     private fun handleAnswer(answer: Answer){
-        val q = gameLogic.questions.get(gameLogic.currentQuestionIndex)
+        if(!clicked){
+            clicked = true
+            val q = gameLogic.questions.get(gameLogic.currentQuestionIndex)
 
-        if(answer.correct){
-            RobotUtil.say("Good Job!")
-            buttons[answer]?.setBackgroundColor(Color.GREEN)
-            gameLogic.score++
-        }else{
-            RobotUtil.say("Better Luck Next Time!")
-            buttons[answer]?.setBackgroundColor(Color.RED)
-            val correctAnswer = q.answers.filter{ ans -> ans.correct}[0]
-            buttons[correctAnswer]?.setBackgroundColor(Color.GREEN)
-        }
-        binding.btNext.visibility = View.VISIBLE
+            if(answer.correct){
+                RobotUtil.say("Good Job!")
+                buttons[answer]?.setBackgroundColor(Color.GREEN)
+                gameLogic.score++
+            }else{
+                RobotUtil.say("Better Luck Next Time!")
+                buttons[answer]?.setBackgroundColor(Color.RED)
+                val correctAnswer = q.answers.filter{ ans -> ans.correct}[0]
+                buttons[correctAnswer]?.setBackgroundColor(Color.GREEN)
+            }
+            binding.btNext.visibility = View.VISIBLE
 
-        binding.btNext.setOnClickListener {
-            nav2Next()
+            binding.btNext.setOnClickListener {
+                nav2Next()
+            }
+            listenForNext()
         }
-        listenForNext()
     }
 
     private fun listenForAnswer(){
