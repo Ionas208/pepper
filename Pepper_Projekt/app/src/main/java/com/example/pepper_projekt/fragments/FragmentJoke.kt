@@ -32,7 +32,7 @@ import kotlin.random.Random
 class FragmentJoke : Fragment() {
 
     private lateinit var binding : FragmentJokeBinding
-
+    private var naved = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,8 +99,11 @@ class FragmentJoke : Fragment() {
 
 
     fun navBack(){
-        RobotUtil.cancelAllFutures()
-        val action = FragmentJokeDirections.actionFragmentJokeToFragmentMode(false)
-        Navigation.findNavController(binding.root).navigate(action)
+        if(!naved){
+            naved = true
+            RobotUtil.cancelAllFutures()
+            val action = FragmentJokeDirections.actionFragmentJokeToFragmentMode(false)
+            Navigation.findNavController(binding.root).navigate(action)
+        }
     }
 }
