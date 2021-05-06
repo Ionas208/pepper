@@ -37,21 +37,21 @@ class FragmentQuizTopic : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_quiz_topic, container, false)
 
         numberTopics = mapOf(
-                1 to Topic.TOPIC1,
-                2 to Topic.TOPIC1,
-                3 to Topic.TOPIC3
+                1 to Topic.SPORT,
+                2 to Topic.GESCHICHTE,
+                3 to Topic.GEOGRAPHIE
         )
 
         binding.btTopic1.setOnClickListener{
-            nav2Quiz(Topic.TOPIC1)
+            nav2Quiz(Topic.SPORT)
         }
 
         binding.btTopic2.setOnClickListener{
-            nav2Quiz(Topic.TOPIC2)
+            nav2Quiz(Topic.GESCHICHTE)
         }
 
         binding.btTopic3.setOnClickListener{
-            nav2Quiz(Topic.TOPIC3)
+            nav2Quiz(Topic.GEOGRAPHIE)
         }
 
         listenForTopic()

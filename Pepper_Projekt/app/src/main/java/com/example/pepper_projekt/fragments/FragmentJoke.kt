@@ -61,14 +61,14 @@ class FragmentJoke : Fragment() {
         CoroutineScope(IO).launch {
             RobotUtil.say(jokes.get(randomJoke).joke)
             CoroutineScope(Main).launch {
-                delay(1000)
+                delay(3000)
                 binding.tvJoke.text = jokes.get(randomJoke).punchline
 
                 //Say Punchline
                 CoroutineScope(IO).launch {
                     RobotUtil.say(jokes.get(randomJoke).punchline)
                     CoroutineScope(Main).launch {
-                        delay(1000)
+                        delay(3000)
                         navBack()
                     }
                 }

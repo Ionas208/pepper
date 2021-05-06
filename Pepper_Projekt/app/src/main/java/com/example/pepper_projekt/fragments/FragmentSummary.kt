@@ -42,7 +42,7 @@ class FragmentSummary : Fragment() {
         listenForBack()
 
         binding.btBack.setOnClickListener {
-            Navigation.findNavController(binding.root).navigate(R.id.action_fragmentSummary_to_fragmentMode)
+            navBack()
         }
 
         return binding.root

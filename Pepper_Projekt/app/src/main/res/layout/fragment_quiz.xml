@@ -1,75 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:splitMotionEvents="false">
 
         <TextView
             android:id="@+id/tvQuestion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:text="Question"
-            android:textSize="36sp"
+            android:text="Capital of Armenia?"
+            android:textAlignment="center"
+            android:textSize="40dp"
+            app:layout_constraintBottom_toTopOf="@+id/btAnswerA"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="600dp"
-            android:layout_height="300dp"
+        <Button
+            android:id="@+id/btAnswerA"
+            android:layout_width="256dp"
+            android:layout_height="64dp"
+            android:background="@color/blue"
+            android:text="Yerevan"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btNext"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btAnswerB"
+            android:layout_width="256dp"
+            android:layout_height="64dp"
+            android:background="@color/blue"
+            android:text="Tehran"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btNext"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btAnswerC"
+            android:layout_width="256dp"
+            android:layout_height="64dp"
+            android:background="@color/blue"
+            android:text="Riyadh"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btNext"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvQuestion">
+            app:layout_constraintTop_toBottomOf="@+id/btAnswerA" />
 
-            <Button
-                android:id="@+id/btAnswerA"
-                android:layout_width="@dimen/answer_width"
-                android:layout_height="@dimen/answer_height"
-                android:text="A"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/btAnswerB"
-                android:layout_width="@dimen/answer_width"
-                android:layout_height="@dimen/answer_height"
-                android:text="B"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/btAnswerC"
-                android:layout_width="@dimen/answer_width"
-                android:layout_height="@dimen/answer_height"
-                android:text="C"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <Button
-                android:id="@+id/btAnswerD"
-                android:layout_width="@dimen/answer_width"
-                android:layout_height="@dimen/answer_height"
-                android:text="D"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/btAnswerD"
+            android:layout_width="256dp"
+            android:layout_height="64dp"
+            android:background="@color/blue"
+            android:text="Jeddah"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btNext"
+            app:layout_constraintTop_toBottomOf="@+id/btAnswerB" />
 
         <Button
             android:id="@+id/btNext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="next"
+            android:background="@color/blue"
+            android:text="weiter"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btAnswerC" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

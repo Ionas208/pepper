@@ -1,90 +1,266 @@
 [
   {
-    "question": "Q1",
+    "question": "Wer gewann die Fußball-Weltmeisterschaft 2010?",
     "answers":[
       {
-        "answerText":"A",
+        "answerText":"Niederlande",
+        "correct":false
+      },
+      {
+        "answerText":"Spanien",
         "correct":true
       },
       {
-        "answerText":"B",
+        "answerText":"Brasilien",
         "correct":false
       },
       {
-        "answerText":"C",
-        "correct":false
-      },
-      {
-        "answerText":"D",
+        "answerText":"Deutschland",
         "correct":false
       }
     ],
-    "topic":"TOPIC1"
+    "topic":"SPORT"
   },
   {
-    "question": "Q2",
+    "question": "Wo fanden die Olympischen Spiele 1996 statt?",
     "answers":[
       {
-        "answerText":"A",
-        "correct":false
-      },
-      {
-        "answerText":"B",
-        "correct":false
-      },
-      {
-        "answerText":"C",
+        "answerText":"Atlanta",
         "correct":true
       },
       {
-        "answerText":"D",
+        "answerText":"Turin",
+        "correct":false
+      },
+      {
+        "answerText":"Barcelona",
+        "correct":false
+      },
+      {
+        "answerText":"Los Angeles",
         "correct":false
       }
     ],
-    "topic":"TOPIC1"
+    "topic":"SPORT"
   },
   {
-    "question": "Q1",
+    "question": "Wer gewann die meisten Weltcuprennen im Skifahren",
     "answers":[
       {
-        "answerText":"A",
+        "answerText":"Marcel Hirscher",
+        "correct":false
+      },
+      {
+        "answerText":"Hermann Maier",
+        "correct":false
+      },
+      {
+        "answerText":"I. Stenmark",
         "correct":true
       },
       {
-        "answerText":"B",
-        "correct":false
-      },
-      {
-        "answerText":"C",
-        "correct":false
-      },
-      {
-        "answerText":"D",
+        "answerText":"Bode Miller",
         "correct":false
       }
     ],
-    "topic":"TOPIC2"
+    "topic":"SPORT"
   },
   {
-    "question": "Q1",
+    "question": "Auf welcher Höhe hängt ein Basketballkorb?",
     "answers":[
       {
-        "answerText":"A",
+        "answerText":"2.50m",
+        "correct":false
+      },
+      {
+        "answerText":"4m",
+        "correct":false
+      },
+      {
+        "answerText":"2m",
+        "correct":false
+      },
+      {
+        "answerText":"3.05m",
+        "correct":true
+      }
+    ],
+    "topic":"SPORT"
+  },
+  {
+    "question": "Welcher römische Kaiser soll einen Brand gelegt haben?",
+    "answers":[
+      {
+        "answerText":"Cäsar",
+        "correct":false
+      },
+      {
+        "answerText":"Nero",
         "correct":true
       },
       {
-        "answerText":"B",
+        "answerText":"Varus",
         "correct":false
       },
       {
-        "answerText":"C",
-        "correct":false
-      },
-      {
-        "answerText":"D",
+        "answerText":"Claudius",
         "correct":false
       }
     ],
-    "topic":"TOPIC3"
+    "topic":"GESCHICHTE"
+  },
+  {
+    "question": "In welchem Jahr begann die Französische Revolution?",
+    "answers":[
+      {
+        "answerText":"1617",
+        "correct":false
+      },
+      {
+        "answerText":"1789",
+        "correct":true
+      },
+      {
+        "answerText":"1810",
+        "correct":false
+      },
+      {
+        "answerText":"1720",
+        "correct":false
+      }
+    ],
+    "topic":"GESCHICHTE"
+  },
+  {
+    "question": "Wer hat den Buchdruck erfunden?",
+    "answers":[
+      {
+        "answerText":"Gutenberg",
+        "correct":true
+      },
+      {
+        "answerText":"Schlechtensee",
+        "correct":false
+      },
+      {
+        "answerText":"Edison",
+        "correct":false
+      },
+      {
+        "answerText":"Ford",
+        "correct":false
+      }
+    ],
+    "topic":"GESCHICHTE"
+  },
+  {
+    "question": "John F. Kennedy war der vierte US-Präsident, der ermordet wurde. In welcher Stadt wurde er erschossen?",
+    "answers":[
+      {
+        "answerText":"Dallas",
+        "correct":true
+      },
+      {
+        "answerText":"Austin",
+        "correct":false
+      },
+      {
+        "answerText":"Washington D.C.",
+        "correct":false
+      },
+      {
+        "answerText":"Denver",
+        "correct":false
+      }
+    ],
+    "topic":"GESCHICHTE"
+  },
+  {
+    "question": "Was ist der höchste Berg in Europa?",
+    "answers":[
+      {
+        "answerText":"Grossglockner",
+        "correct":false
+      },
+      {
+        "answerText":"Matterhorn",
+        "correct":false
+      },
+      {
+        "answerText":"Elbrus",
+        "correct":false
+      },
+      {
+        "answerText":"Mont Blanc",
+        "correct":true
+      }
+    ],
+    "topic":"GEOGRAPHIE"
+  },
+  {
+    "question": "Wie heißt die Hauptstadt von Venezuela?",
+    "answers":[
+      {
+        "answerText":"Hanoi",
+        "correct":false
+      },
+      {
+        "answerText":"Caracas",
+        "correct":true
+      },
+      {
+        "answerText":"Asunción",
+        "correct":false
+      },
+      {
+        "answerText":"Quito",
+        "correct":false
+      }
+    ],
+    "topic":"GEOGRAPHIE"
+  },
+  {
+    "question": "Wo liegt der größte See der Erde?",
+    "answers":[
+      {
+        "answerText":"USA-Kanada",
+        "correct":false
+      },
+      {
+        "answerText":"Russland",
+        "correct":true
+      },
+      {
+        "answerText":"Antarktis",
+        "correct":false
+      },
+      {
+        "answerText":"China",
+        "correct":false
+      }
+    ],
+    "topic":"GEOGRAPHIE"
+  },
+  {
+    "question": "Was ist das flächengrößte Land Europas?",
+    "answers":[
+      {
+        "answerText":"Norwegen",
+        "correct":false
+      },
+      {
+        "answerText":"Deutschland",
+        "correct":false
+      },
+      {
+        "answerText":"Polen",
+        "correct":false
+      },
+      {
+        "answerText":"Frankreich",
+        "correct":true
+      }
+    ],
+    "topic":"GEOGRAPHIE"
   }
 ]
