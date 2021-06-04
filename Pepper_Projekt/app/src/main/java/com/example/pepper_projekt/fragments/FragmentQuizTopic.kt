@@ -21,6 +21,8 @@ import com.example.pepper_projekt.bl.RobotUtil
 import com.example.pepper_projekt.databinding.FragmentQuizTopicBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 
 
@@ -60,8 +62,13 @@ class FragmentQuizTopic : Fragment() {
     }
 
     private fun nav2Quiz(topic: Topic){
-        val action = FragmentQuizTopicDirections.actionFragmentQuizTopicToFragmentQuiz(topic)
-        Navigation.findNavController(binding.root).navigate(action)
+        CoroutineScope(IO).launch {
+            RobotUtil.waitForAllFutureCancellations()
+            CoroutineScope(Main).launch {
+                val action = FragmentQuizTopicDirections.actionFragmentQuizTopicToFragmentQuiz(topic)
+                Navigation.findNavController(binding.root).navigate(action)
+            }
+        }
     }
 
     private fun listenForTopic(){

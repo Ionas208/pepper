@@ -64,8 +64,7 @@ class FragmentMode : Fragment() {
         //=====================================
         binding.btDance.setOnClickListener {
             CoroutineScope(IO).launch {
-                MainActivity.listenFuture?.requestCancellation()
-                waitForFutureCancellation(MainActivity.listenFuture)
+                RobotUtil.waitForAllFutureCancellations()
                 CoroutineScope(Main).launch{
                     navigateToDance()
                 }
@@ -73,8 +72,7 @@ class FragmentMode : Fragment() {
         }
         binding.btJoke.setOnClickListener {
             CoroutineScope(IO).launch {
-                MainActivity.listenFuture?.requestCancellation()
-                waitForFutureCancellation(MainActivity.listenFuture)
+                RobotUtil.waitForAllFutureCancellations()
                 CoroutineScope(Main).launch{
                     navigateToJoke()
                 }
@@ -82,10 +80,23 @@ class FragmentMode : Fragment() {
         }
         binding.btQuiz.setOnClickListener {
             CoroutineScope(IO).launch {
-                MainActivity.listenFuture?.requestCancellation()
-                waitForFutureCancellation(MainActivity.listenFuture)
+                RobotUtil.waitForAllFutureCancellations()
                 CoroutineScope(Main).launch{
                     navigateToQuiz()
+                }
+            }
+        }
+
+        binding.btRandom.setOnClickListener{
+            CoroutineScope(IO).launch {
+                RobotUtil.waitForAllFutureCancellations()
+                CoroutineScope(Main).launch{
+                    val rand: Random = Random()
+                    when(rand.nextInt(3)){
+                        0 -> navigateToJoke()
+                        1 -> navigateToDance()
+                        2 -> navigateToQuiz()
+                    }
                 }
             }
         }

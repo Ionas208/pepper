@@ -2,6 +2,7 @@ package com.example.pepper_entertainment_app
 
 import android.graphics.Color
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +31,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
+import java.util.*
 
 class FragmentQuiz : Fragment() {
 
@@ -52,11 +54,24 @@ class FragmentQuiz : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_quiz, container, false)
 
+        val timer = object: CountDownTimer(10000, 950) {
+            override fun onTick(millisUntilFinished: Long) {
+                var time = Math.round(millisUntilFinished/1000.0)
+                binding.tvTimer.text = time.toString()
+            }
+
+            override fun onFinish() {
+                binding.tvTimer.text = "0"
+                handleTimeout()
+            }
+        }
+
         activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 CoroutineScope(IO).launch {
                     RobotUtil.waitForAllFutureCancellations()
                     CoroutineScope(Main).launch {
+                        timer.cancel()
                         Navigation.findNavController(binding.root).navigate(R.id.action_fragmentQuiz_to_fragmentMode)
                     }
                 }
@@ -87,11 +102,14 @@ class FragmentQuiz : Fragment() {
         )
         for((answer, button) in buttons){
             button.text = answer.answerText
-            button.setOnClickListener {handleAnswer(answer)}
+            button.setOnClickListener {
+                timer.cancel()
+                handleAnswer(answer)
+            }
         }
-
+        timer.start()
         RobotUtil.say(q.question)
-        listenForAnswer()
+        listenForAnswer(timer)
         return binding.root
     }
 
@@ -105,30 +123,59 @@ class FragmentQuiz : Fragment() {
     }
 
     private fun handleAnswer(answer: Answer){
-        if(!clicked){
-            clicked = true
-            val q = gameLogic.questions.get(gameLogic.currentQuestionIndex)
+        CoroutineScope(IO).launch {
+            RobotUtil.waitForAllFutureCancellations()
+            CoroutineScope(Main).launch {
+                if(!clicked){
+                    clicked = true
+                    val q = gameLogic.questions.get(gameLogic.currentQuestionIndex)
 
-            if(answer.correct){
-                RobotUtil.say("Good Job!")
-                buttons[answer]?.setBackgroundColor(Color.GREEN)
-                gameLogic.score++
-            }else{
-                RobotUtil.say("Better Luck Next Time!")
-                buttons[answer]?.setBackgroundColor(Color.RED)
+                    if(answer.correct){
+                        RobotUtil.say("Gut gemacht!")
+                        buttons[answer]?.setBackgroundColor(Color.GREEN)
+                        gameLogic.score++
+                    }else{
+                        RobotUtil.say("Leider falsch. Beim nächsten mal schaffst du es!")
+                        buttons[answer]?.setBackgroundColor(Color.RED)
+                        val correctAnswer = q.answers.filter{ ans -> ans.correct}[0]
+                        buttons[correctAnswer]?.setBackgroundColor(Color.GREEN)
+                    }
+                    binding.btNext.visibility = View.VISIBLE
+
+                    binding.btNext.setOnClickListener {
+                        nav2Next()
+                    }
+                    listenForNext()
+                }
+            }
+        }
+
+    }
+
+    private fun handleTimeout(){
+        CoroutineScope(IO).launch {
+            RobotUtil.waitForAllFutureCancellations()
+            CoroutineScope(Main).launch {
+                clicked = true
+                val q = gameLogic.questions.get(gameLogic.currentQuestionIndex)
+                RobotUtil.say("Du musst schneller sein!")
                 val correctAnswer = q.answers.filter{ ans -> ans.correct}[0]
+                val wrongAnswers = q.answers.filter{ ans -> !ans.correct}
+                for(a in wrongAnswers){
+                    buttons[a]?.setBackgroundColor(Color.RED)
+                }
                 buttons[correctAnswer]?.setBackgroundColor(Color.GREEN)
-            }
-            binding.btNext.visibility = View.VISIBLE
+                binding.btNext.visibility = View.VISIBLE
 
-            binding.btNext.setOnClickListener {
-                nav2Next()
+                binding.btNext.setOnClickListener {
+                    nav2Next()
+                }
+                listenForNext()
             }
-            listenForNext()
         }
     }
 
-    private fun listenForAnswer(){
+    private fun listenForAnswer(timer: CountDownTimer){
         CoroutineScope(IO).launch {
             val phrases: PhraseSet = PhraseSetBuilder.with(MainActivity.ctx)
                 .withTexts("A", "B", "C", "D")
@@ -136,13 +183,15 @@ class FragmentQuiz : Fragment() {
             val listen: Listen = ListenBuilder.with(MainActivity.ctx)
                 .withPhraseSet(phrases)
                 .build()
-
             RobotUtil.prepareListen()
             MainActivity.listenFuture = listen.async().run()
+            println("Listen: Answer")
             MainActivity.listenFuture?.andThenConsume {future ->
                 val phrase: Phrase = future.heardPhrase
                 answerName[phrase.text]?.let {
-                    CoroutineScope(Main).launch {handleAnswer(it)}
+                    CoroutineScope(Main).launch {
+                        timer.cancel()
+                        handleAnswer(it)}
                 }
             }
         }
@@ -160,6 +209,7 @@ class FragmentQuiz : Fragment() {
 
             RobotUtil.prepareListen()
             MainActivity.listenFuture = listen.async().run()
+            println("Listen: Next")
             MainActivity.listenFuture?.andThenConsume {future ->
                 val phrase: Phrase = future.heardPhrase
                 if(phrase.text in phraseTexts){

@@ -40,14 +40,25 @@
             android:id="@+id/btDance"
             android:layout_width="@dimen/button_size"
             android:layout_height="@dimen/button_size"
-            android:layout_marginBottom="100dp"
             android:background="#00FFFFFF"
             android:scaleType="fitCenter"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/btRandom"
             app:layout_constraintEnd_toStartOf="@+id/btQuiz"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/btJoke"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_dance" />
+
+        <ImageButton
+            android:id="@+id/btRandom"
+            android:layout_width="@dimen/random_button_size"
+            android:layout_height="@dimen/random_button_size"
+            android:layout_marginBottom="50dp"
+            android:background="#FFFFFF"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/ic_random" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

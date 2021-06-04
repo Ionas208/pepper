@@ -8,6 +8,9 @@ import com.aldebaran.qi.sdk.`object`.conversation.Listen
 import com.aldebaran.qi.sdk.`object`.conversation.Phrase
 import com.aldebaran.qi.sdk.`object`.conversation.PhraseSet
 import com.aldebaran.qi.sdk.`object`.conversation.Say
+import com.aldebaran.qi.sdk.`object`.locale.Language
+import com.aldebaran.qi.sdk.`object`.locale.Locale
+import com.aldebaran.qi.sdk.`object`.locale.Region
 import com.aldebaran.qi.sdk.builder.AnimateBuilder
 import com.aldebaran.qi.sdk.builder.AnimationBuilder
 import com.aldebaran.qi.sdk.builder.ListenBuilder
@@ -19,6 +22,7 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.*
 
 class RobotUtil {
     companion object{
@@ -32,9 +36,11 @@ class RobotUtil {
                     MainActivity.listenFuture?.requestCancellation()
                     waitForFutureCancellation(MainActivity.listenFuture)
                 }
+                val locale: Locale = Locale(Language.GERMAN, Region.GERMANY)
                 var phrase = Phrase(text)
                 var say: Say = SayBuilder.with(MainActivity.ctx)
                     .withPhrase(phrase)
+                    .withLocale(locale)
                     .build()
                 MainActivity.sayFuture = say.async().run()
             }
@@ -102,7 +108,6 @@ class RobotUtil {
                 MainActivity.animateFuture?.requestCancellation()
                 waitForFutureCancellation(MainActivity.animateFuture)
             }
-
             if(MainActivity.listenFuture != null){
                 MainActivity.listenFuture?.requestCancellation()
                 waitForFutureCancellation(MainActivity.listenFuture)
