@@ -36,7 +36,7 @@ import java.util.*
 class FragmentQuiz : Fragment() {
 
     private lateinit var binding : FragmentQuizBinding
-    private var clicked = false;
+    private var clicked = false
 
     val args: FragmentQuizArgs by navArgs()
     lateinit var gameLogic: GameLogic
@@ -185,7 +185,6 @@ class FragmentQuiz : Fragment() {
                 .build()
             RobotUtil.prepareListen()
             MainActivity.listenFuture = listen.async().run()
-            println("Listen: Answer")
             MainActivity.listenFuture?.andThenConsume {future ->
                 val phrase: Phrase = future.heardPhrase
                 answerName[phrase.text]?.let {
@@ -209,7 +208,6 @@ class FragmentQuiz : Fragment() {
 
             RobotUtil.prepareListen()
             MainActivity.listenFuture = listen.async().run()
-            println("Listen: Next")
             MainActivity.listenFuture?.andThenConsume {future ->
                 val phrase: Phrase = future.heardPhrase
                 if(phrase.text in phraseTexts){

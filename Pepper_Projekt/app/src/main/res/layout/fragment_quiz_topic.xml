@@ -12,7 +12,7 @@
             android:id="@+id/tvTitleCat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Choose a Category"
+            android:text="Wähle eine Kategorie"
             android:textSize="64dp"
             app:layout_constraintBottom_toTopOf="@+id/btTopic2"
             app:layout_constraintEnd_toEndOf="parent"
