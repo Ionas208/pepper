@@ -24,6 +24,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
+import java.util.*
 
 
 class FragmentQuizTopic : Fragment() {
@@ -54,6 +55,15 @@ class FragmentQuizTopic : Fragment() {
 
         binding.btTopic3.setOnClickListener{
             nav2Quiz(Topic.GEOGRAPHIE)
+        }
+
+        binding.btRandomTopic.setOnClickListener{
+            val rand = Random()
+            when(rand.nextInt(3)){
+                0 -> nav2Quiz(Topic.SPORT)
+                1 -> nav2Quiz(Topic.GESCHICHTE)
+                2 -> nav2Quiz(Topic.GEOGRAPHIE)
+            }
         }
 
         listenForTopic()

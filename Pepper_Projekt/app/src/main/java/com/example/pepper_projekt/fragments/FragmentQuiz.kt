@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
@@ -40,7 +42,9 @@ class FragmentQuiz : Fragment() {
 
     val args: FragmentQuizArgs by navArgs()
     lateinit var gameLogic: GameLogic
-    lateinit var buttons: Map<Answer, Button>
+    lateinit var layouts: Map<Answer, ConstraintLayout>
+    lateinit var layoutButtons: Map<ConstraintLayout, Button>
+    lateinit var layoutText: Map<ConstraintLayout, TextView>
     lateinit var answerName: Map<String, Answer>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,11 +92,23 @@ class FragmentQuiz : Fragment() {
         val q = gameLogic.questions.get(gameLogic.currentQuestionIndex)
 
         binding.tvQuestion.text = q.question
-        buttons = mapOf(
-            q.answers[0] to binding.btAnswerA,
-            q.answers[1] to binding.btAnswerB,
-            q.answers[2] to binding.btAnswerC,
-            q.answers[3] to binding.btAnswerD
+        layouts = mapOf(
+            q.answers[0] to binding.clAnswerA,
+            q.answers[1] to binding.clAnswerB,
+            q.answers[2] to binding.clAnswerC,
+            q.answers[3] to binding.clAnswerD
+        )
+        layoutButtons = mapOf(
+                binding.clAnswerA to binding.btAnswerA,
+                binding.clAnswerB to binding.btAnswerB,
+                binding.clAnswerC to binding.btAnswerC,
+                binding.clAnswerD to binding.btAnswerD
+        )
+        layoutText= mapOf(
+                binding.clAnswerA to binding.tvAnswerA,
+                binding.clAnswerB to binding.tvAnswerB,
+                binding.clAnswerC to binding.tvAnswerC,
+                binding.clAnswerD to binding.tvAnswerD
         )
         answerName = mapOf(
             "A" to q.answers[0],
@@ -100,9 +116,9 @@ class FragmentQuiz : Fragment() {
             "C" to q.answers[2],
             "D" to q.answers[3]
         )
-        for((answer, button) in buttons){
-            button.text = answer.answerText
-            button.setOnClickListener {
+        for((answer, layout) in layouts){
+            layoutButtons[layout]?.text = answer.answerText
+            layout.setOnClickListener {
                 timer.cancel()
                 handleAnswer(answer)
             }
@@ -132,13 +148,17 @@ class FragmentQuiz : Fragment() {
 
                     if(answer.correct){
                         RobotUtil.say("Gut gemacht!")
-                        buttons[answer]?.setBackgroundColor(Color.GREEN)
+                        val layout = layouts[answer]
+                        layoutText[layout]?.setBackgroundResource(R.drawable.ic_circle_green)
                         gameLogic.score++
                     }else{
                         RobotUtil.say("Leider falsch. Beim nächsten mal schaffst du es!")
-                        buttons[answer]?.setBackgroundColor(Color.RED)
+                        val layout = layouts[answer]
+                        layoutText[layout]?.setBackgroundResource(R.drawable.ic_circle_red)
+
                         val correctAnswer = q.answers.filter{ ans -> ans.correct}[0]
-                        buttons[correctAnswer]?.setBackgroundColor(Color.GREEN)
+                        val correctLayout = layouts[correctAnswer]
+                        layoutText[correctLayout]?.setBackgroundResource(R.drawable.ic_circle_green)
                     }
                     binding.btNext.visibility = View.VISIBLE
 
@@ -162,9 +182,11 @@ class FragmentQuiz : Fragment() {
                 val correctAnswer = q.answers.filter{ ans -> ans.correct}[0]
                 val wrongAnswers = q.answers.filter{ ans -> !ans.correct}
                 for(a in wrongAnswers){
-                    buttons[a]?.setBackgroundColor(Color.RED)
+                    val layout = layouts[a]
+                    layoutText[layout]?.setBackgroundResource(R.drawable.ic_circle_red)
                 }
-                buttons[correctAnswer]?.setBackgroundColor(Color.GREEN)
+                val correctLayout = layouts[correctAnswer]
+                layoutText[correctLayout]?.setBackgroundResource(R.drawable.ic_circle_green)
                 binding.btNext.visibility = View.VISIBLE
 
                 binding.btNext.setOnClickListener {

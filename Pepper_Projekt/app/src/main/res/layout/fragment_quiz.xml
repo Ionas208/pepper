@@ -9,81 +9,205 @@
 
         <TextView
             android:id="@+id/tvQuestion"
-            android:layout_width="wrap_content"
+            android:layout_width="500dp"
             android:layout_height="wrap_content"
             android:text="Capital of Armenia?"
             android:textAlignment="center"
-            android:textSize="40dp"
-            app:layout_constraintBottom_toTopOf="@+id/btAnswerA"
+            android:textColor="#000000"
+            android:textSize="40sp"
+            app:layout_constraintBottom_toTopOf="@+id/clAnswerA"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/btAnswerA"
-            android:layout_width="256dp"
-            android:layout_height="64dp"
-            android:background="@color/blue"
-            android:text="Yerevan"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btNext"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/btAnswerB"
-            android:layout_width="256dp"
-            android:layout_height="64dp"
-            android:background="@color/blue"
-            android:text="Tehran"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/btNext"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/btAnswerC"
-            android:layout_width="256dp"
-            android:layout_height="64dp"
-            android:background="@color/blue"
-            android:text="Riyadh"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btNext"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btAnswerA" />
-
-        <Button
-            android:id="@+id/btAnswerD"
-            android:layout_width="256dp"
-            android:layout_height="64dp"
-            android:background="@color/blue"
-            android:text="Jeddah"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/btNext"
-            app:layout_constraintTop_toBottomOf="@+id/btAnswerB" />
-
-        <Button
-            android:id="@+id/btNext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/blue"
-            android:text="weiter"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btAnswerC" />
 
         <TextView
             android:id="@+id/tvTimer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="100dp"
+            android:background="@drawable/ic_circle"
+            android:gravity="center"
             android:text="10"
-            android:textSize="40sp"
-            app:layout_constraintBottom_toTopOf="@+id/btAnswerB"
+            android:textColor="#FFFFFF"
+            android:textSize="50sp"
+            app:layout_constraintBottom_toTopOf="@+id/clAnswerB"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tvQuestion"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clAnswerA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="250dp"
+            android:layout_marginBottom="109dp"
+            app:layout_constraintBottom_toTopOf="@+id/clAnswerC"
+            app:layout_constraintEnd_toStartOf="@+id/btNext"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tvAnswerA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/ic_circle"
+                android:gravity="center"
+                android:text="A"
+                android:textColor="#FFFFFF"
+                android:textSize="50sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btAnswerA"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/btAnswerA"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:background="#0000C7FF"
+                android:gravity="center_vertical"
+                android:text="Answer A"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clAnswerB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="250dp"
+            android:layout_marginEnd="100dp"
+            android:layout_marginBottom="109dp"
+            app:layout_constraintBottom_toTopOf="@+id/clAnswerD"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btNext"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tvAnswerB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/ic_circle"
+                android:gravity="center"
+                android:text="B"
+                android:textColor="#FFFFFF"
+                android:textSize="50sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btAnswerB"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/btAnswerB"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:background="#0000C7FF"
+                android:gravity="center_vertical"
+                android:text="Answer B"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clAnswerC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:layout_marginBottom="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btNext"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/tvAnswerC"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/ic_circle"
+                android:gravity="center"
+                android:text="C"
+                android:textColor="#FFFFFF"
+                android:textSize="50sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btAnswerC"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/btAnswerC"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:background="#0000C7FF"
+                android:gravity="center_vertical"
+                android:text="Answer C"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clAnswerD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="100dp"
+            android:layout_marginBottom="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btNext">
+
+            <TextView
+                android:id="@+id/tvAnswerD"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/ic_circle"
+                android:gravity="center"
+                android:text="D"
+                android:textColor="#FFFFFF"
+                android:textSize="50sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btAnswerD"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/btAnswerD"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:background="#0000C7FF"
+                android:gravity="center_vertical"
+                android:text="Answer D"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/btNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="50dp"
+            android:background="@drawable/ic_rounded_corners"
+            android:text="weiter"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
