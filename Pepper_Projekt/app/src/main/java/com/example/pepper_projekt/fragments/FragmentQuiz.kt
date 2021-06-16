@@ -58,7 +58,7 @@ class FragmentQuiz : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_quiz, container, false)
 
-        val timer = object: CountDownTimer(10000, 950) {
+        val timer = object: CountDownTimer(20000, 950) {
             override fun onTick(millisUntilFinished: Long) {
                 var time = Math.round(millisUntilFinished/1000.0)
                 binding.tvTimer.text = time.toString()
@@ -198,9 +198,13 @@ class FragmentQuiz : Fragment() {
     }
 
     private fun listenForAnswer(timer: CountDownTimer){
+        val aPhrases = arrayOf<String>("A","Ah")
+        val bPhrases = arrayOf<String>("B","Be", "Beh")
+        val cPhrases = arrayOf<String>("C","Zeh", "Ce", "Ceh")
+        val dPhrases = arrayOf<String>("D","Deh")
         CoroutineScope(IO).launch {
             val phrases: PhraseSet = PhraseSetBuilder.with(MainActivity.ctx)
-                .withTexts("A", "B", "C", "D")
+                .withTexts(*(aPhrases + bPhrases + cPhrases + dPhrases))
                 .build()
             val listen: Listen = ListenBuilder.with(MainActivity.ctx)
                 .withPhraseSet(phrases)
@@ -209,10 +213,20 @@ class FragmentQuiz : Fragment() {
             MainActivity.listenFuture = listen.async().run()
             MainActivity.listenFuture?.andThenConsume {future ->
                 val phrase: Phrase = future.heardPhrase
-                answerName[phrase.text]?.let {
-                    CoroutineScope(Main).launch {
-                        timer.cancel()
-                        handleAnswer(it)}
+                CoroutineScope(Main).launch {
+                    timer.cancel()
+                    if(aPhrases.contains(phrase.text)){
+                        handleAnswer(answerName["A"]!!)
+                    }
+                    else if(bPhrases.contains(phrase.text)){
+                        handleAnswer(answerName["B"]!!)
+                    }
+                    else if(cPhrases.contains(phrase.text)){
+                        handleAnswer(answerName["C"]!!)
+                    }
+                    else if(dPhrases.contains(phrase.text)){
+                        handleAnswer(answerName["D"]!!)
+                    }
                 }
             }
         }

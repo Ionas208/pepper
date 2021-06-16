@@ -46,6 +46,16 @@ class RobotUtil {
             }
         }
 
+        suspend fun saySync(text: String){
+            val locale: Locale = Locale(Language.GERMAN, Region.GERMANY)
+            var phrase = Phrase(text)
+            var say: Say = SayBuilder.with(MainActivity.ctx)
+                    .withPhrase(phrase)
+                    .withLocale(locale)
+                    .build()
+            say.run()
+        }
+
         suspend fun prepareListen(){
             if (MainActivity.sayFuture != null) {
                 MainActivity.sayFuture?.requestCancellation()
